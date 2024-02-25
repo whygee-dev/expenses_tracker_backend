@@ -1,102 +1,73 @@
-# PowerSync Node.js + Firebase Backend: Demo
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
-## Overview
-This repo contains a demo Node.js server application which has HTTP endpoints to authorize a [PowerSync](https://www.powersync.com/) enabled application to sync data between a client device and a PostgresSQL database. In addition, it has endpoints that allow a PowerSync client to authenticate.
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-The endpoints are as follows:
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-1. GET `/api/auth/token`
+## Description
 
-   - PowerSync uses this endpoint to retrieve a JWT access token which is used for authentication. 
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-2. GET `/api/auth/keys`
+## Installation
 
-   - PowerSync uses this endpoint to validate the JWT returned from the endpoint above.
-
-3. PUT `/api/data`
-
-   - PowerSync uses this endpoint to sync upsert events that occurred on the client application.
-
-4. PATCH `/api/data`
-
-   - PowerSync uses this endpoint to sync update events that occurred on the client application.
-
-5. DELETE `/api/data`
-
-    - PowerSync uses this endpoint to sync delete events that occurred on the client application.
-
-The repo also has an integration with [Firebase](https://firebase.google.com/docs/auth) to validate a token provided in the header of the `/api/auth/token` endpoint.
-
-## Packages
-- [node-postgres](https://github.com/brianc/node-postgres)  is used to interact with the Postgres database when a PowerSync enabled client performs requests to the `/api/data` endpoint.
-- [jose](https://github.com/panva/jose) is used to sign the JWT which PowerSync uses for authorization.
-- [firebase-admin](https://github.com/firebase/firebase-admin-node) is used to connect to Firebase and the `verifyIdToken` function is used to validate the client application request before the app generates a JWT used by PowerSync to sync data.
-
-## Requirements
-This app needs a PostgresSQL instance that's hosted. For a free version for testing/demo purposes, visit [Supabase](https://supabase.com/).
+```bash
+$ yarn install
+```
 
 ## Running the app
 
-1. Clone the repository
+```bash
+# development
+$ yarn run start
 
-2. Follow the steps outlined in [PowerSync Custom Authentication Example](https://github.com/journeyapps/powersync-jwks-example) → [Generate a key-pair](https://github.com/journeyapps/powersync-jwks-example#1-generate-a-key-pair) to get the key pair you need for this app. This is an easy way to get started with this demo app. You can use your own public/private keys as well.
+# watch mode
+$ yarn run start:dev
 
-3. Create a new `.env` file in the root project directory and add the variables as defined in the `.env` file:
-```shell
-cp .env.template .env
+# production mode
+$ yarn run start:prod
 ```
 
-4. Make sure to place a copy of your Firebase `serviceAccountKey.json` in the route of the project and set the `GOOGLE_APPLICATION_CREDENTIALS` to point to the file on your machine.
+## Test
 
-5. Install dependencies:
-```shell
-nvm use
-```
-```shell
-yarn install
-```
-## Start App
-1. Run the following to start the application
-```shell
-yarn start
-```
-This will start the app on `http://127.0.0.1:PORT`, where PORT is what you specify in your `.env` file.
+```bash
+# unit tests
+$ yarn run test
 
-2. Test if the app is working by opening `http://127.0.0.1:PORT/api/auth/token/` in the browser
+# e2e tests
+$ yarn run test:e2e
 
-3. You should get a JSON object as the response to that request
-
-## Testing the app with PowerSync
-
-This process is only designed for demo/testing purposes, and is not intended for production use. You won't be using ngrok to host your application and database.
-
-1. Download and install [ngrok](https://ngrok.com/)
-
-2. Run the ngrok command to create a HTTPS tunnel to your local application
-```shell
-ngrok http <YOUR PORT>
+# test coverage
+$ yarn run test:cov
 ```
 
-This should create the tunnel and a new HTTPS URL should be available e.g.
-```shell
-ngrok by @inconshreveable                                                                                                                  (Ctrl+C to quit)
+## Support
 
-Session Status                online
-Account                       Michael Barnes (Plan: Free)
-Update                        update available (version 2.3.41, Ctrl-U to update)
-Version                       2.3.40
-Region                        United States (us)
-Web Interface                 http://127.0.0.1:4040
-Forwarding                    http://your_id.ngrok-free.app -> http://localhost:8000
-Forwarding                    https://your_id.ngrok-free.app -> http://localhost:8000
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-Connections                   ttl     opn     rt1     rt5     p50     p90
-                              1957    0       0.04    0.03    0.01    89.93
-```
+## Stay in touch
 
-3. Open the [PowerSync Dashboard](https://powersync.journeyapps.com/) and paste the `Forwarding` URL starting with HTTPS into the Credentials tab of your PowerSync instance e.g.
-```
-JWKS URI 
-https://your_id.ngrok-free.app/api/auth/keys/
-```
-Pay special attention to the URL, it should include the `/api/auth/keys/` path as this is used by the PowerSync server to validate tokens.
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](LICENSE).
